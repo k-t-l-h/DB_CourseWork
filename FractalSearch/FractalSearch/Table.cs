@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace FractalSearch
 {
@@ -12,15 +14,15 @@ namespace FractalSearch
         int TableSize;
         string TableName;
 
-
-        public int get_Table()
+        public testDataSet get_Table()
         {
-            return 0;
+            return new testDataSet();
         }
 
-        public int get_Data()
+        public DataTableReader get_Data()
         {
-            return 0;
+            testDataSet set = new testDataSet();
+            return set.CreateDataReader();
         }
     }
 }
