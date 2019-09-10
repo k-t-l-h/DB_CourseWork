@@ -86,6 +86,3 @@ class DomenCollection(object):
         # all opt collections
         self.opt_collection = generate_optimal_collection(table, domens, columns_count)
 
-
-dc = DomenCollection(Table("TestTable"))
-print(dc.opt_collection)

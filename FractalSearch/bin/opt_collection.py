@@ -30,5 +30,19 @@ class OptCollection(object):
             result *= x.unique_values
         return result
 
-    def write(self):
-        return 0
+    def pack(self):
+        data = self.table.get_data()
+        rows = []
+        for x in data:
+            row = []
+            for domen in self.domens:
+                value = [x[idx+1] for idx in domen.atr_idx]
+                if value in domen.dict:
+                    row.append(str(domen.dict.index(value) + 1))
+                else:
+                    row.append(str(len(domen.dict) + 1))
+                    domen.dict.append(value)
+
+            rows.append("("+", ".join(row)+")")
+        return rows
+
