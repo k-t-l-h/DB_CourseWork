@@ -71,14 +71,14 @@ def generate_optimal_collection(table, domens, columns_count):
 
 
 class DomenCollection(object):
-    def __init__(self, table):
+    def __init__(self, table, max_domen_length):
         self.table = table
         # all domens
         columns = table.get_columns()
         columns_count = len(columns)
         domens = []
-        for length in range(2,MAXDOMEN+1):
-            iterator = [x for x in range(0,length)]
+        for length in range(2, max_domen_length+1):
+            iterator = [x for x in range(0, length)]
             while iterator[0] <= columns_count - length:
                 domens.append(Domen(table, [x for x in iterator]))
                 iterator = next_domen(iterator, columns_count)

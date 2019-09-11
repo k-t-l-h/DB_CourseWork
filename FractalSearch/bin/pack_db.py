@@ -4,12 +4,12 @@ from bin.table import Table
 import bin.methods as cfg
 
 
-def pack(table_name):
+def pack(table_name, max_domen_length):
     conn = pyodbc.connect('Driver={SQL Server};'
                           'Server=' + cfg.server +
                           ';Database=' + cfg.db +
                           ';Trusted_Connection=yes;')
-    domen_collection = DomenCollection(Table(table_name))
+    domen_collection = DomenCollection(Table(table_name), max_domen_length)
     cursor = conn.cursor()
 
     sql_command = "CREATE TABLE " + table_name + "_packed \
@@ -43,6 +43,3 @@ def pack(table_name):
         output_f.write('---\n')
     output_f.close()
 
-
-base_table_name = "TestCrime1"
-pack(base_table_name)
