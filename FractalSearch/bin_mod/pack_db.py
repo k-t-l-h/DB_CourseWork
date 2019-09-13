@@ -30,11 +30,11 @@ def pack(table_name, max_domen_length):
 
     rows = domen_collection.opt_collection.pack()
     cursor.execute(sql_command)
-    conn.commit()
+    #conn.commit()
     for x in rows:
         sql_command = "INSERT INTO " + table_name + "_modpacked VALUES " + x
         cursor.execute(sql_command)
-    conn.commit()
+    #conn.commit()
     conn.close()
 
     output_f = open("F:\\DB_CourseWork\\FractalSearch\\bin_mod\\"+table_name+"dicts.txt", "w")
@@ -46,7 +46,3 @@ def pack(table_name, max_domen_length):
             output_f.write(str(x) + "\n")
         output_f.write('---\n')
     output_f.close()
-
-
-for x in ["TestCrime1", "TestCrime2", "TestCrime3"]:
-    pack(x, 3)

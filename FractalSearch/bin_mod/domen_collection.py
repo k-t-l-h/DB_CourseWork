@@ -1,6 +1,7 @@
 from bin_mod.table import Table
 from bin_mod.domen import Domen
 from bin_mod.opt_collection import OptCollection
+import time
 
 MAXDOMEN = 3
 
@@ -69,8 +70,10 @@ def get_full_collections(table, packable_domens, unpackable_atr, columns_count):
                         result.append(collection+[x])
             else:
                 result.append(collection)
-        prev_result = result
-
+        if len(result) > 0:
+            prev_result = result
+    if len(result) == 0:
+        result = prev_result
     collections = [OptCollection(table, x) for x in result]
     opt_collections = []
     for x in collections:
@@ -81,15 +84,21 @@ def get_full_collections(table, packable_domens, unpackable_atr, columns_count):
 
 
 def fill_collections(table, collections):
+    domens = []
+    for collection in collections:
+        for domen in collection.domens:
+            if domen not in domens:
+                domens.append(domen)
+
+
     dataset = table.get_data()
     for row in dataset:
-        for collection in collections:
-            for domen in collection.domens:
-                if len(domen.atr_idx) == 1:
-                    domen.try_to_put(row[domen.atr_idx[0]])
-                else:
-                    value = [row[idx] for idx in domen.atr_idx]
-                    domen.try_to_put(value)
+        for domen in domens:
+            if len(domen.atr_idx) == 1:
+                domen.try_to_put(row[domen.atr_idx[0]])
+            else:
+                value = [row[idx] for idx in domen.atr_idx]
+                domen.try_to_put(value)
 
 
 def get_min_collection(collections):
@@ -119,14 +128,14 @@ class DomenCollection(object):
                 unpackable_atr.append(Domen(table, [i]))
                 skip.append(i)
         # get all packable domens
-        for length in range(2, min(max_domen_length+1, len(columns))):
+        for length in range(1, min(max_domen_length+1, len(columns))):
             iterator = [x for x in range(0, length)]
             iterator = check_domen(iterator, length, skip)
             while iterator[0] <= columns_count - length:
                 packable_domens.append(Domen(table, [x for x in iterator]))
                 iterator = next_domen(iterator, columns_count, skip)
         self.domens = packable_domens + unpackable_atr
-        # all opt collections
+        # all full collections
         full_collections = get_full_collections(table, packable_domens, unpackable_atr, columns_count)
         fill_collections(table, full_collections)
         self.opt_collection = get_min_collection(full_collections)
