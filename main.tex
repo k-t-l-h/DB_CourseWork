@@ -1,0 +1,57 @@
+% настойка языка и шрифта
+\documentclass[12pt]{article} 
+
+\usepackage{cmap}
+\usepackage[russian]{babel}
+
+% настройка страниц
+\usepackage[left=3cm, right=1.5cm, top=2cm, bottom =2cm]{geometry}
+\geometry{a4paper} 
+
+% дополнительные пакеты
+\usepackage{array}
+\usepackage{float}
+\usepackage{amsmath} 
+\usepackage{indentfirst}
+\usepackage{textalpha}
+\usepackage{mathtext}
+\usepackage{listings} 
+\usepackage[pdftex]{graphicx}
+\usepackage{csquotes} 
+\usepackage{latexsym}
+\graphicspath{{formulas/}} %путь к рисункам
+
+%переносы в таблицах
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\usepackage[
+bookmarks=true, colorlinks=true, unicode=true,
+urlcolor=black,linkcolor=black, anchorcolor=black,
+citecolor=black, menucolor=black, filecolor=black,
+]{hyperref}
+
+\usepackage{enumerate} %списки
+\lstset{frame=single}
+
+\addto\captionsrussian{\def\refname{}} %заголовок библиографии
+\begin{document}
+
+%обложка
+\include{cover}
+
+\tableofcontents
+
+\include{intro}
+
+%главы аналитической части
+\include{analytics}
+%главы конструкторской части
+\include{construct}
+%главы исследовательской части
+\include{search}
+%вывод и библиография
+\include{outro}
+\include{biblio}
+
+\end{document}
